@@ -334,17 +334,17 @@ bool Audio::FfmpegLoad(const char *filename, bool copy2char){
         avcodec_free_context(&codecContext);
         return false;
     }
-    SwrContext *swr_ctx = swr_alloc_set_opts(
-        nullptr, // allocate a new context
-        AV_CH_LAYOUT_MONO, // output channel layout (stereo)
-        AV_SAMPLE_FMT_S16, // output sample format (signed 16-bit)
-        dest_sample_rate, // output sample rate (same as input)
-        av_get_default_channel_layout(codecContext->channels), // input channel layout
-        codecContext->sample_fmt, // input sample format
-        codecContext->sample_rate, // input sample rate
-        0, // logging level
-        nullptr // parent context
-    );
+
+    SwrContext *swr_ctx = swr_alloc();
+    if (swr_ctx) {
+        AVChannelLayout out_chlayout = AV_CHANNEL_LAYOUT_MONO;
+        av_opt_set_int(swr_ctx, "in_sample_rate", codecContext->sample_rate, 0); // input sample rate
+        av_opt_set_int(swr_ctx, "out_sample_rate", dest_sample_rate, 0); // output sample rate (same as input)
+        av_opt_set_sample_fmt(swr_ctx, "in_sample_fmt", codecContext->sample_fmt, 0); // input sample format
+        av_opt_set_sample_fmt(swr_ctx, "out_sample_fmt", AV_SAMPLE_FMT_S16, 0); // output sample format (signed 16-bit)
+        av_opt_set_chlayout(swr_ctx, "in_chlayout", &codecContext->ch_layout, 0); // input channel layout
+        av_opt_set_chlayout(swr_ctx, "out_chlayout", &out_chlayout, 0); // output channel layout (stereo)
+    }
     if (swr_ctx == nullptr) {
         LOG(ERROR) << "Could not initialize resampler";
         avformat_close_input(&formatContext);
@@ -513,17 +513,16 @@ bool Audio::FfmpegLoad(const char* buf, int n_file_len){
         avcodec_free_context(&codecContext);
         return false;
     }
-    SwrContext *swr_ctx = swr_alloc_set_opts(
-        nullptr, // allocate a new context
-        AV_CH_LAYOUT_MONO, // output channel layout (stereo)
-        AV_SAMPLE_FMT_S16, // output sample format (signed 16-bit)
-        dest_sample_rate, // output sample rate (same as input)
-        av_get_default_channel_layout(codecContext->channels), // input channel layout
-        codecContext->sample_fmt, // input sample format
-        codecContext->sample_rate, // input sample rate
-        0, // logging level
-        nullptr // parent context
-    );
+    SwrContext *swr_ctx = swr_alloc();
+    if (swr_ctx) {
+        AVChannelLayout out_chlayout = AV_CHANNEL_LAYOUT_MONO;
+        av_opt_set_int(swr_ctx, "in_sample_rate", codecContext->sample_rate, 0); // input sample rate
+        av_opt_set_int(swr_ctx, "out_sample_rate", dest_sample_rate, 0); // output sample rate (same as input)
+        av_opt_set_sample_fmt(swr_ctx, "in_sample_fmt", codecContext->sample_fmt, 0); // input sample format
+        av_opt_set_sample_fmt(swr_ctx, "out_sample_fmt", AV_SAMPLE_FMT_S16, 0); // output sample format (signed 16-bit)
+        av_opt_set_chlayout(swr_ctx, "in_chlayout", &codecContext->ch_layout, 0); // input channel layout
+        av_opt_set_chlayout(swr_ctx, "out_chlayout", &out_chlayout, 0); // output channel layout (stereo)
+    }
     if (swr_ctx == nullptr) {
         LOG(ERROR) << "Could not initialize resampler";
         avio_context_free(&avio_ctx);
