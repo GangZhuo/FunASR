@@ -556,16 +556,14 @@
 
 		// timestamp
 		std::string cur_stamp = "[";		
+		float* buff[1];
+		int len[1];
 		while(audio->FetchTpass(frame) > 0){
 			// dec reset
 			funasr::WfstDecoder* wfst_decoder = (funasr::WfstDecoder*)dec_handle;
 			if (wfst_decoder){
 				wfst_decoder->StartUtterance();
 			}
-			float** buff;
-			int* len;
-			buff = new float*[1];
-        	len = new int[1];
 			buff[0] = frame->data;
 			len[0] = frame->len;
 			vector<string> msgs;
