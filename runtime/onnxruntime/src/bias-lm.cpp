@@ -142,10 +142,12 @@ float BiasLm::BiasLmScore(const StateId &his_state, const Label &lab, Label &new
     } else {
       ArcIterator aiter(*graph_, cur_state);
       const Arc& arc = aiter.Value();
-      if (arc.ilabel == 0) {
+      if (&arc != nullptr && arc.ilabel == 0) {
         score += arc.weight.Value();
         next_state = arc.nextstate;
         cur_state = next_state;
+      } else {
+          cur_state = ROOT_NODE;
       }
       if (prev_state == ROOT_NODE && cur_state == ROOT_NODE) {
         break;
