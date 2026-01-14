@@ -50,7 +50,7 @@ endif()
 set(CMAKE_INSTALL_RPATH ${kaldi_native_fbank_rpath_origin})
 set(CMAKE_BUILD_RPATH ${kaldi_native_fbank_rpath_origin})
 
-set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
+set(CMAKE_CXX_STANDARD 17 CACHE STRING "The C++ version to be used.")
 
 if(NOT DEFINED BUILD_SHARED_LIBS)
   set(BUILD_SHARED_LIBS ON)

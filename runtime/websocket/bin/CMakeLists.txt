@@ -23,3 +23,9 @@ target_link_libraries(funasr-wss-client PUBLIC funasr ${OPENSSL_CRYPTO_LIBRARY} 
 target_link_libraries(funasr-wss-client-2pass PUBLIC funasr ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY} portaudio)
 target_link_libraries(funasr-wss-server PUBLIC funasr ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
 target_link_libraries(funasr-wss-server-2pass PUBLIC funasr ${OPENSSL_CRYPTO_LIBRARY} ${OPENSSL_SSL_LIBRARY})
+
+install(TARGETS funasr-wss-server DESTINATION bin)
+install(TARGETS funasr-wss-server-2pass DESTINATION bin)
+install(TARGETS funasr-wss-client DESTINATION bin)
+install(TARGETS funasr-wss-client-2pass DESTINATION bin)
+

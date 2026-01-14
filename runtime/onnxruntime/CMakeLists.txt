@@ -7,9 +7,12 @@ option(ENABLE_FST "Whether to build openfst" ON) # ITN need openfst compiled
 option(GPU "Whether to build with GPU" OFF)
 
 # set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
+set(CMAKE_CXX_STANDARD 17 CACHE STRING "The C++ version to be used.")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+set(CMAKE_SKIP_RPATH TRUE)
 
 include(TestBigEndian)
 test_big_endian(BIG_ENDIAN)
@@ -52,13 +55,14 @@ include_directories(${PROJECT_SOURCE_DIR}/third_party/json/include)
 
 if(GPU)
     add_definitions(-DUSE_GPU)
-    set(TORCH_DIR "/usr/local/lib/python3.8/dist-packages/torch")
-    set(TORCH_BLADE_DIR "/usr/local/lib/python3.8/dist-packages/torch_blade")
+    set(USER_HOME_DIR $ENV{HOME})
+    set(TORCH_DIR "${USER_HOME_DIR}/.pyenv/versions/3.13.11/envs/funasr/lib/python3.13/site-packages/torch")
+    #set(TORCH_BLADE_DIR "${USER_HOME_DIR}/.pyenv/versions/3.13.11/envs/funasr/lib/python3.13/site-packages/torch_blade")
     include_directories(${TORCH_DIR}/include)
     include_directories(${TORCH_DIR}/include/torch/csrc/api/include)
     link_directories(${TORCH_DIR}/lib)
-    link_directories(${TORCH_BLADE_DIR})
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -D_GLIBCXX_USE_CXX11_ABI=0")
+    #link_directories(${TORCH_BLADE_DIR})
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -D_GLIBCXX_USE_CXX11_ABI=1")
 endif()
 
 if(ENABLE_GLOG)
