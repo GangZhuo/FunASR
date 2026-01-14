@@ -4,7 +4,7 @@ project(FunASROnnx)
 
 option(ENABLE_GLOG "Whether to build glog" ON)
 option(ENABLE_FST "Whether to build openfst" ON) # ITN need openfst compiled
-option(GPU "Whether to build with GPU" OFF)
+option(GPU "Whether to build with GPU" ON)
 
 # set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17 CACHE STRING "The C++ version to be used.")
