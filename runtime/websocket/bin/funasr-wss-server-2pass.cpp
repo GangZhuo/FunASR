@@ -13,6 +13,10 @@
 #include <fstream>
 #include "util.h"
 
+#ifndef DOWNLOAD_MODEL_ENABLED
+#define DOWNLOAD_MODEL_ENABLED 0
+#endif
+
 // hotwords
 std::unordered_map<std::string, int> hws_map_;
 int fst_inc_wts_=20;
@@ -233,10 +237,12 @@ int main(int argc, char* argv[]) {
                 "/" + s_vad_path;
         }
 
+#if DOWNLOAD_MODEL_ENABLED
         int ret = system(python_cmd_vad.c_str());
         if (ret != 0) {
           LOG(INFO) << "Failed to download model from modelscope. If you set local vad model path, you can ignore the errors.";
         }
+#endif
         down_vad_model = down_vad_path + "/model_quant.onnx";
         if (s_vad_quant == "false" || s_vad_quant == "False" ||
             s_vad_quant == "FALSE") {
@@ -302,10 +308,12 @@ int main(int argc, char* argv[]) {
                 = s_download_model_dir + "/" + s_offline_asr_path;
         }
 
+#if DOWNLOAD_MODEL_ENABLED
         int ret = system(python_cmd_asr.c_str());
         if (ret != 0) {
           LOG(INFO) << "Failed to download model from modelscope. If you set local asr model path, you can ignore the errors.";
         }
+#endif
         down_asr_model = down_asr_path + "/model_quant.onnx";
         if (s_asr_quant == "false" || s_asr_quant == "False" ||
             s_asr_quant == "FALSE") {
@@ -346,10 +354,12 @@ int main(int argc, char* argv[]) {
                   = s_download_model_dir + "/" + s_online_asr_path;
         }
 
+#if DOWNLOAD_MODEL_ENABLED
         int ret = system(python_cmd_asr.c_str());
         if (ret != 0) {
           LOG(INFO) << "Failed to download model from modelscope. If you set local asr model path,  you can ignore the errors.";
         }
+#endif
         down_asr_model = down_asr_path + "/model_quant.onnx";
         if (s_asr_quant == "false" || s_asr_quant == "False" ||
             s_asr_quant == "FALSE") {
@@ -392,10 +402,12 @@ int main(int argc, char* argv[]) {
                       "/" + s_lm_path;
           }
 
+#if DOWNLOAD_MODEL_ENABLED
           int ret = system(python_cmd_lm.c_str());
           if (ret != 0) {
               LOG(INFO) << "Failed to download model from modelscope. If you set local lm model path, you can ignore the errors.";
           }
+#endif
           down_lm_model = down_lm_path + "/TLG.fst";
 
           if (access(down_lm_model.c_str(), F_OK) != 0) {
@@ -434,10 +446,12 @@ int main(int argc, char* argv[]) {
                 "/" + s_punc_path;
         }
 
+#if DOWNLOAD_MODEL_ENABLED
         int ret = system(python_cmd_punc.c_str());
         if (ret != 0) {
           LOG(INFO) << "Failed to download model from modelscope. If you set local punc model path, you can ignore the errors.";
         }
+#endif
         down_punc_model = down_punc_path + "/model_quant.onnx";
         if (s_punc_quant == "false" || s_punc_quant == "False" ||
             s_punc_quant == "FALSE") {
@@ -480,10 +494,12 @@ int main(int argc, char* argv[]) {
                 "/" + s_itn_path;
         }
 
+#if DOWNLOAD_MODEL_ENABLED
         int ret = system(python_cmd_itn.c_str());
         if (ret != 0) {
           LOG(INFO) << "Failed to download model from modelscope. If you set local itn model path, you can ignore the errors.";
         }
+#endif
         down_itn_model = down_itn_path + "/zh_itn_tagger.fst";
 
         if (access(down_itn_model.c_str(), F_OK) != 0) {
