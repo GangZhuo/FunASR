@@ -25,13 +25,37 @@
 #include <cstdint>
 #include <vector>
 
+#ifndef _FUNASRAPI
+
+#ifdef WIN32
+#ifdef _FUNASR_API_EXPORT
+#define  _FUNASRAPI __declspec(dllexport)
+#else
+#define  _FUNASRAPI __declspec(dllimport)
+#endif
+#else
+#define _FUNASRAPI
+#endif
+
+#endif /* #ifndef _FUNASRAPI */
+
+#ifndef FUNASR_CALLBCK_PREFIX
+
+#ifndef _WIN32
+#define FUNASR_CALLBCK_PREFIX __attribute__((__stdcall__))
+#else
+#define FUNASR_CALLBCK_PREFIX __stdcall
+#endif
+
+#endif /* #ifndef FUNASR_CALLBCK_PREFIX */
+
 namespace funasr {
 /*
    We require that the input and output sampling rate be specified as
    integers, as this is an easy way to specify that their ratio be rational.
 */
 
-class LinearResample {
+class _FUNASRAPI LinearResample {
  public:
   /// Constructor.  We make the input and output sample rates integers, because
   /// we are going to need to find a common divisor.  This should just remind

@@ -1013,7 +1013,7 @@ void ExtractHws(string hws_file, unordered_map<string, int> &hws_map)
     LOG(INFO) << "hotwords: ";
     while (getline(ifs_hws, line)) {
         Trim(&line);
-        if (line.empty()) {
+        if (line.empty() || line[0] == '#') {
             continue;
         }
         float score = 1.0f;
@@ -1060,7 +1060,7 @@ void ExtractHws(string hws_file, unordered_map<string, int> &hws_map, string& nn
     LOG(INFO) << "hotwords: ";
     while (getline(ifs_hws, line)) {
         Trim(&line);
-        if (line.empty()) {
+        if (line.empty() || line[0] == '#') {
             continue;
         }
         float score = 1.0f;

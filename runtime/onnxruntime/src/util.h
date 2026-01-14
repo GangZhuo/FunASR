@@ -6,6 +6,30 @@
 #include <deque>
 #include "tensor.h"
 
+#ifndef _FUNASRAPI
+
+#ifdef WIN32
+#ifdef _FUNASR_API_EXPORT
+#define  _FUNASRAPI __declspec(dllexport)
+#else
+#define  _FUNASRAPI __declspec(dllimport)
+#endif
+#else
+#define _FUNASRAPI
+#endif
+
+#endif /* #ifndef _FUNASRAPI */
+
+#ifndef FUNASR_CALLBCK_PREFIX
+
+#ifndef _WIN32
+#define FUNASR_CALLBCK_PREFIX __attribute__((__stdcall__))
+#else
+#define FUNASR_CALLBCK_PREFIX __stdcall
+#endif
+
+#endif /* #ifndef FUNASR_CALLBCK_PREFIX */
+
 using namespace std;
 
 namespace funasr {
@@ -68,7 +92,7 @@ void TimestampOnnx( std::vector<float>& us_alphas,
                     float begin_time = 0.0, 
                     float total_offset = -1.5);
 bool IsTargetFile(const std::string& filename, const std::string target);
-void ExtractHws(string hws_file, unordered_map<string, int> &hws_map);
-void ExtractHws(string hws_file, unordered_map<string, int> &hws_map, string& nn_hotwords_);
+_FUNASRAPI void ExtractHws(string hws_file, unordered_map<string, int> &hws_map);
+_FUNASRAPI void ExtractHws(string hws_file, unordered_map<string, int> &hws_map, string& nn_hotwords_);
 } // namespace funasr
 #endif
